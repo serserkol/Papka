@@ -1,0 +1,65 @@
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.Locale;
+
+public class DateExample {
+    public static void main(String[] args) {
+        // 1. Проверка на високосный год
+        int year = 2024;
+        System.out.println(year + " is leap year: " + isLeapYear(year));
+
+        // 2. Локализованная дата для Индии
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter indiaFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss", new Locale("hi", "IN"));
+        System.out.println("Current date and time in India: " + now.format(indiaFormatter));
+
+        // 3. Дата в формате 19-12-22, 19, 353, 11:47
+        DateTimeFormatter customFormatter = DateTimeFormatter.ofPattern("dd-MM-yy, d, D, HH:mm");
+        System.out.println("Custom formatted date: " + now.format(customFormatter));
+
+        // 4. Дата рождения
+        LocalDate birthDate = LocalDate.of(1985, Month.JANUARY, 10);
+        DateTimeFormatter birthDateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("ru"));
+        System.out.println("Birth date: " + birthDate.format(birthDateFormatter));
+
+        // 5. Проверка дня недели
+        DayOfWeek dayOfWeek = birthDate.getDayOfWeek();
+        System.out.println("10 Января 1985 was a " + dayOfWeek);
+
+        // Проверка другой даты
+        LocalDate anotherDate = LocalDate.of(2023, Month.JULY, 16);
+        System.out.println("16 Июля 2023 is a " + anotherDate.getDayOfWeek());
+
+        // 6. Вычитание 10 лет
+        LocalDate minusTenYears = birthDate.minusYears(10);
+        System.out.println("10 years before birth date: " + minusTenYears.format(birthDateFormatter));
+
+        // 7. Объект Instant
+        Instant instant = Instant.parse("2022-12-19T06:55:30.00Z");
+        System.out.println("Instant: " + instant);
+
+        // 8. ZonedDateTime для Pacific/Midway
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Pacific/Midway"));
+        System.out.println("Current date and time in Pacific/Midway: " + zonedDateTime);
+
+        // 9. Возраст человека
+        Period age = Period.between(birthDate, LocalDate.now());
+        System.out.println("Age: " + age.getYears() + " years, " + age.getMonths() + " months, " + age.getDays() + " days");
+
+        // 10. Время до начала работы
+        LocalTime workStartTime = LocalTime.of(9, 0);
+        LocalTime currentTime = LocalTime.now();
+        if (currentTime.isBefore(workStartTime)) {
+            Duration timeUntilWork = Duration.between(currentTime, workStartTime);
+            System.out.println("Time until work: " + timeUntilWork.toHours() + " hours and " + timeUntilWork.toMinutesPart() + " minutes");
+        } else {
+            Duration timeLate = Duration.between(workStartTime, currentTime);
+            System.out.println("You are late by: " + timeLate.toHours() + " hours and " + timeLate.toMinutesPart() + " minutes");
+        }
+    }
+
+    public static boolean isLeapYear(int year) {
+        return Year.isLeap(year);
+    }
+}
