@@ -1,1 +1,39 @@
+public class TwoSum {
+    public static int[] twoSum(int[] numbers, int target) {
+        // Инициализируем два указателя: один в начале массива, другой в конце
+        int left = 0, right = numbers.length - 1;
+        
+        // Пока указатели не пересеклись
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+            
+            // Если сумма чисел равна целевому значению, возвращаем индексы (с учетом 1-based индексации)
+            if (sum == target) {
+                return new int[] {left + 1, right + 1};
+            }
+            
+            // Если сумма меньше целевого значения, сдвигаем левый указатель вправо
+            else if (sum < target) {
+                left++;
+            }
+            
+            // Если сумма больше целевого значения, сдвигаем правый указатель влево
+            else {
+                right--;
+            }
+        }
+        
+        // Если решение не найдено, возвращаем пустой массив (хотя по условию задачи это невозможно)
+        return new int[0];
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {2, 7, 11, 15};
+        int target = 9;
+        int[] result = twoSum(numbers, target);
+        
+        // Выводим результат
+        System.out.println("Индексы: " + result[0] + ", " + result[1]);
+    }
+}
 
